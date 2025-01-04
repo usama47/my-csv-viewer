@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import { CsvDataProvider } from "@/context/CsvDataContext";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -20,7 +21,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <CsvDataProvider>
+          {children}
+        </CsvDataProvider>
       </body>
     </html>
   );

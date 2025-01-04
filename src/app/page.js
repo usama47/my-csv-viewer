@@ -1,16 +1,19 @@
 "use client";
-import { useState } from "react";
-import { Container } from "@mui/material";
+import { useCsvData } from "@/context/CsvDataContext";
 import CsvUploader from "@/components/CsvUploader";
 import CsvList from "@/components/CsvList";
+import { Container } from "@mui/material";
 
 export default function Home() {
-  const [csvData, setCsvData] = useState([]);
+  const { csvData } = useCsvData();
 
   return (
     <Container>
-      <CsvUploader onFileUpload={setCsvData} />
-      {csvData.length > 0 && <CsvList data={csvData} />}
+      {csvData.length === 0 ? (
+        <CsvUploader />
+      ) : (
+        <CsvList data={csvData} />
+      )}
     </Container>
   );
 }

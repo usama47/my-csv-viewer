@@ -6,14 +6,13 @@ import Link from "next/link";
 const CsvList = ({ data }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Find the "Name" dynamically
-  const nameKey = Object.keys(data[0]).find((key) => /name/i.test(key)) || "First name";
+  // Ensure data is an array
+  const validData = Array.isArray(data) ? data : [];
 
-  // Combine first and last name into a full name
   const getFullName = (person) => `${person["First name"] || ""} ${person["Last name"] || ""}`.trim();
 
   // Filtered data based on search query
-  const filteredData = data.filter((person) => {
+  const filteredData = validData.filter((person) => {
     const fullName = getFullName(person).toLowerCase();
     const email = (person.Email || "").toLowerCase();
     return fullName.includes(searchQuery.toLowerCase()) || email.includes(searchQuery.toLowerCase());
@@ -41,10 +40,11 @@ const CsvList = ({ data }) => {
           <List>
             {filteredData.map((person, index) => {
               const fullName = getFullName(person);
+
               return (
                 <Link
                   key={index}
-                  href={`/${encodeURIComponent(fullName)}?details=${encodeURIComponent(JSON.stringify(person))}`}
+                  href={`/${encodeURIComponent(fullName)}`} // Pass only the name in the URL
                   style={{ textDecoration: "none" }}
                 >
                   <ListItem disablePadding>

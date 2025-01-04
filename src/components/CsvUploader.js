@@ -1,13 +1,16 @@
 "use client";
 import { Button, Box, Typography } from "@mui/material";
 import Papa from "papaparse";
+import { useCsvData } from "@/context/CsvDataContext";
 
-const CsvUploader = ({ onFileUpload }) => {
+const CsvUploader = () => {
+  const { setCsvData } = useCsvData();
+
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     Papa.parse(file, {
       header: true,
-      complete: (results) => onFileUpload(results.data),
+      complete: (results) => setCsvData(results.data),
     });
   };
 
